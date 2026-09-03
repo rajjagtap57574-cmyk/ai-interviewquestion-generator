@@ -1,0 +1,12 @@
+{
+  "name": "ai-interview-question-generator",
+  "version": "1.0.0",
+  "description": "AI-Powered Interview Question Generator built with HTML, CSS, JS and Netlify Functions",
+  "main": "script.js",
+  "scripts": {
+    "start": "npx netlify dev"
+  },
+  "dependencies": {
+    "@google/genai": "^2.21.0"
+  }
+}

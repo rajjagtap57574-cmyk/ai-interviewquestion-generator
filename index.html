@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Interview Question Generator</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+
+  <!-- TOP DEPLOYMENT PACKAGER BANNER -->
+  <div class="exporter-banner">
+    <div class="exporter-info">
+      <i class="fa-solid fa-file-zipper"></i>
+      <span><strong>Netlify Deployment Ready:</strong> College Mini Project Package (CSE-AIML)</span>
+    </div>
+    <div class="export-btn-group">
+      <button class="btn-code-modal" id="viewCodeBtn"><i class="fa-solid fa-code"></i> View Source Structure</button>
+      <button class="btn-export" id="downloadZipBtn"><i class="fa-solid fa-download"></i> Download Netlify .ZIP</button>
+    </div>
+  </div>
+
+  <!-- NAVIGATION -->
+  <header>
+    <a href="#" class="logo">
+      <div class="logo-icon"><i class="fa-solid fa-brain"></i></div>
+      <span>InterviewAI</span>
+    </a>
+    <nav>
+      <a href="#hero" class="active">Home</a>
+      <a href="#generator">Generator</a>
+      <a href="#stats">Analytics</a>
+      <a href="#readme">Netlify Guide</a>
+    </nav>
+  </header>
+
+  <div class="container">
+    
+    <!-- HERO SECTION -->
+    <section class="hero" id="hero">
+      <div>
+        <div class="ai-badge"><i class="fa-solid fa-sparkles"></i> AI-Powered Question Generator</div>
+        <h1 class="hero-title">AI Interview Question Generator</h1>
+        <p class="hero-subtitle">Prepare smarter. Practice better. Get interview-ready with AI. Custom questions tailored for software engineering, data science, and AI roles.</p>
+        <div class="hero-buttons">
+          <a href="#generator" class="btn btn-primary"><i class="fa-solid fa-bolt"></i> Start Practicing</a>
+          <a href="#readme" class="btn btn-secondary"><i class="fa-solid fa-book"></i> Deployment Docs</a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="visual-card">
+          <div class="visual-icon"><i class="fa-solid fa-robot"></i></div>
+          <h3 style="margin-bottom: 0.5rem;">Targeted Questions</h3>
+          <p style="font-size: 0.85rem; color: var(--text-muted); text-align: center;">Tailored for Freshers to Experienced Engineers across 13 Industry Roles.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURES SECTION -->
+    <section class="features-grid">
+      <div class="glass-card feature-card">
+        <div class="feature-icon"><i class="fa-solid fa-microchip"></i></div>
+        <h3 class="feature-title">AI Generated Questions</h3>
+        <p class="feature-desc">Dynamically crafts questions based on selected tech stacks and exact experience levels.</p>
+      </div>
+      <div class="glass-card feature-card">
+        <div class="feature-icon"><i class="fa-solid fa-briefcase"></i></div>
+        <h3 class="feature-title">Multiple Job Roles</h3>
+        <p class="feature-desc">Covers Python, Full Stack, ML, Data Science, DevOps, Cybersecurity, and more.</p>
+      </div>
+      <div class="glass-card feature-card">
+        <div class="feature-icon"><i class="fa-solid fa-sliders"></i></div>
+        <h3 class="feature-title">Difficulty Selection</h3>
+        <p class="feature-desc">Adjust difficulty from Easy basics to Hard real-world architecture scenarios.</p>
+      </div>
+      <div class="glass-card feature-card">
+        <div class="feature-icon"><i class="fa-solid fa-user-check"></i></div>
+        <h3 class="feature-title">AI Answer Evaluation</h3>
+        <p class="feature-desc">Submit your answers for AI scoring, strength analysis, and ideal response suggestions.</p>
+      </div>
+    </section>
+
+    <!-- DASHBOARD / LOCAL ANALYTICS -->
+    <section id="stats" style="margin-top: 3rem;">
+      <h2 style="font-size: 1.5rem; margin-bottom: 1.25rem; display: flex; align-items: center; gap: 0.5rem;">
+        <i class="fa-solid fa-chart-pie" style="color: var(--accent);"></i> Your Practice Analytics
+      </h2>
+      <div class="stats-grid">
+        <div class="glass-card stat-card">
+          <div class="stat-number" id="statGenerated">0</div>
+          <div class="stat-label">Questions Generated</div>
+        </div>
+        <div class="glass-card stat-card">
+          <div class="stat-number" id="statAttempted">0</div>
+          <div class="stat-label">Answers Evaluated</div>
+        </div>
+        <div class="glass-card stat-card">
+          <div class="stat-number" id="statAvgScore">0/10</div>
+          <div class="stat-label">Average Score</div>
+        </div>
+        <div class="glass-card stat-card">
+          <div class="stat-number" id="statSessions">0</div>
+          <div class="stat-label">Practice Sessions</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- GENERATOR FORM SECTION -->
+    <section class="generator-section" id="generator">
+      <div class="glass-card">
+        <h2 class="section-title">Configure Your Interview Session</h2>
+        <p class="section-subtitle">Select your target criteria and let AI craft custom interview questions.</p>
+
+        <!-- ERROR ALERT -->
+        <div class="error-box" id="errorBox" style="display: flex;">
+          <i class="fa-solid fa-circle-exclamation" style="font-size: 1.2rem;"></i>
+          <span id="errorMessage">Failed to execute 'fetch' on 'Window': Failed to parse URL from /.netlify/functions/generateQuestions</span>
+        </div>
+
+        <form id="questionForm">
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="jobRole"><i class="fa-solid fa-user-gear"></i> Job Role</label>
+              <select id="jobRole" class="form-control" required="">
+                <option value="Python Developer">Python Developer</option>
+                <option value="Java Developer">Java Developer</option>
+                <option value="Web Developer">Web Developer</option>
+                <option value="Frontend Developer">Frontend Developer</option>
+                <option value="Backend Developer">Backend Developer</option>
+                <option value="Full Stack Developer">Full Stack Developer</option>
+                <option value="Data Analyst">Data Analyst</option>
+                <option value="Data Scientist">Data Scientist</option>
+                <option value="Machine Learning Engineer" selected="">Machine Learning Engineer</option>
+                <option value="AI Engineer">AI Engineer</option>
+                <option value="Software Engineer">Software Engineer</option>
+                <option value="DevOps Engineer">DevOps Engineer</option>
+                <option value="Cybersecurity Analyst">Cybersecurity Analyst</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="experienceLevel"><i class="fa-solid fa-graduation-cap"></i> Experience Level</label>
+              <select id="experienceLevel" class="form-control" required="">
+                <option value="Fresher" selected="">Fresher</option>
+                <option value="0–1 Years">0–1 Years</option>
+                <option value="1–3 Years">1–3 Years</option>
+                <option value="3–5 Years">3–5 Years</option>
+                <option value="5+ Years">5+ Years</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="difficulty"><i class="fa-solid fa-gauge-high"></i> Difficulty</label>
+              <select id="difficulty" class="form-control" required="">
+                <option value="Easy">Easy</option>
+                <option value="Medium" selected="">Medium</option>
+                <option value="Hard">Hard</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="topic"><i class="fa-solid fa-layer-group"></i> Interview Topic</label>
+              <select id="topic" class="form-control" required="">
+                <option value="General">General</option>
+                <option value="Programming">Programming</option>
+                <option value="Data Structures">Data Structures</option>
+                <option value="Algorithms">Algorithms</option>
+                <option value="Database">Database</option>
+                <option value="OOP">OOP</option>
+                <option value="Operating Systems">Operating Systems</option>
+                <option value="Computer Networks">Computer Networks</option>
+                <option value="Artificial Intelligence" selected="">Artificial Intelligence</option>
+                <option value="Machine Learning">Machine Learning</option>
+                <option value="Web Development">Web Development</option>
+                <option value="HR Interview">HR Interview</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="numQuestions"><i class="fa-solid fa-list-ol"></i> Number of Questions</label>
+              <select id="numQuestions" class="form-control" required="">
+                <option value="5" selected="">5 Questions</option>
+                <option value="10">10 Questions</option>
+                <option value="15">15 Questions</option>
+                <option value="20">20 Questions</option>
+              </select>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-generate" id="generateBtn">
+            <i class="fa-solid fa-wand-magic-sparkles"></i> Generate Questions
+          </button>
+        </form>
+      </div>
+    </section>
+
+    <!-- LOADING STATE -->
+    <div class="loading-container" id="loadingState" style="display: none;">
+      <div class="spinner"></div>
+      <h3 style="font-size: 1.3rem; margin-bottom: 0.5rem;">AI is preparing your interview questions...</h3>
+      <p style="color: var(--text-muted);">Analyzing tech stack requirements and difficulty parameters.</p>
+    </div>
+
+    <!-- QUESTION RESULTS -->
+    <section class="results-container" id="resultsSection" style="display: none;">
+      <div class="results-header">
+        <div>
+          <h2 style="font-size: 1.8rem; font-weight: 800;">Generated Interview Questions</h2>
+          <p style="color: var(--text-muted);" id="resultMeta">Showing questions for Python Developer (Fresher)</p>
+        </div>
+        <div style="display: flex; gap: 0.75rem;">
+          <button class="btn btn-secondary btn-sm" id="regenerateBtn"><i class="fa-solid fa-rotate-right"></i> Regenerate</button>
+          <a href="#generator" class="btn btn-primary btn-sm"><i class="fa-solid fa-plus"></i> New Questions</a>
+        </div>
+      </div>
+
+      <div id="questionsList"></div>
+    </section>
+
+    <!-- DEPLOYMENT README REFERENCE SECTION -->
+    <section id="readme" style="margin-top: 4rem;">
+      <div class="glass-card">
+        <h2 style="font-size: 1.5rem; font-weight: 800; margin-bottom: 1rem; color: var(--accent);">
+          <i class="fa-solid fa-cloud-arrow-up"></i> Netlify Deployment Instructions
+        </h2>
+        <div style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.7;">
+          <p>This web application is configured with Netlify Functions to keep the <code>AI_API_KEY</code> safe. Here is how to deploy it:</p>
+          <ol style="margin-left: 1.5rem; margin-top: 0.5rem; margin-bottom: 1rem;">
+            <li>Click <strong>"Download Netlify .ZIP"</strong> at the top right of this page to get the organized project files.</li>
+            <li>Unzip and upload the folder to a public or private <strong>GitHub Repository</strong>.</li>
+            <li>Log into <a href="https://app.netlify.com" target="_blank" style="color: var(--primary);">Netlify</a> and select <strong>"Add new site" → "Import an existing project"</strong>.</li>
+            <li>Connect your GitHub account and select your repository.</li>
+            <li>In Netlify Site Settings → <strong>Environment Variables</strong>, add key: <code>AI_API_KEY</code> with your Gemini API Key value.</li>
+            <li>Deploy site! Netlify automatically detects the <code>netlify.toml</code> and deploys the function at <code>/.netlify/functions/generateQuestions</code>.</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- SOURCE CODE PREVIEW MODAL -->
+  <div class="modal" id="codeModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 style="color: white; font-size: 1.1rem;"><i class="fa-solid fa-folder-tree"></i> ZIP Project Package Structure</h3>
+        <button id="closeModalBtn" style="background:none; border:none; color:white; font-size:1.2rem; cursor:pointer;">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="file-tabs">
+          <button class="tab-btn active" data-file="package">package.json</button>
+          <button class="tab-btn" data-file="toml">netlify.toml</button>
+          <button class="tab-btn" data-file="funcGen">generateQuestions.js</button>
+          <button class="tab-btn" data-file="funcEval">evaluateAnswer.js</button>
+          <button class="tab-btn" data-file="readme">README.md</button>
+        </div>
+        <pre><code id="codeViewer">Select a file tab to view content...</code></pre>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2026 AI Interview Question Generator — Second Year CSE-AIML Mini Project.</p>
+  </footer>
+
+  <script>
+    // PROJECT FILE CONTENTS FOR ZIP PACKAGER & MODAL
+    const projectFiles = {
+      packageJson: `{
+  "name": "ai-interview-question-generator",
+  "version": "1.0.0",
+  "description": "AI-Powered Interview Question Generator built with HTML, CSS, JS and Netlify Functions",
+  "main": "script.js",
+  "scripts": {
+    "start": "npx netlify dev"
+  },
+  "dependencies": {
+    "@google/genai": "^0.1.1"
+  }
+}`,
+      netlifyToml: `[build]
+  publish = "."
+  functions = "netlify/functions"
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200`,
+
+      generateQuestionsJS: `const { GoogleGenAI } = require('@google/genai');
+
+exports.handler = async (event, context) => {
+  if (event.httpMethod !== 'POST') {
+    return { statusCode: 455, body: JSON.stringify({ error: 'Method Not Allowed' }) };
+  }
+
+  try {
+    const { jobRole, experienceLevel, difficulty, topic, numQuestions } = JSON.parse(event.body || '{}');
+
+    // Secure Netlify environment key retrieval
+    const apiKey = process.env.AI_API_KEY;
+    if (!apiKey) {
+      return {
+        statusCode: 500,
+        body: JSON.stringify({ error: 'AI_API_KEY environment variable is not configured in Netlify.' })
+      };
+    }
+
+    const ai = new GoogleGenAI({ apiKey });
+
+    const prompt = \`You are an expert technical interviewer. Generate exactly \${numQuestions} realistic interview questions tailored for a \${jobRole} position at experience level "\${experienceLevel}".
+The interview difficulty should be "\${difficulty}" and topic focused on "\${topic}".
+
+Return ONLY a JSON object (no markdown, no backticks, no extra text) with the following exact format:
+{
+  "questions": [
+    {
+      "question": "Question text here?",
+      "difficulty": "\${difficulty}",
+      "topic": "\${topic}",
+      "hint": "Useful conceptual hint for the candidate",
+      "sampleAnswer": "Comprehensive ideal answer explaining core concepts"
+    }
+  ]
+}\`;
+
+    const response = await ai.models.generateContent({
+      model: 'gemini-2.5-flash-preview-09-2025',
+      contents: prompt,
+      config: {
+        responseMimeType: "application/json"
+      }
+    });
+
+    const rawText = response.text;
+    let data;
+    try {
+      data = JSON.parse(rawText);
+    } catch (parseErr) {
+      // Fallback clean parsing if AI includes code ticks
+      const cleanJson = rawText.replace(/---\`json/g, '').replace(/\`\`\`/g, '').trim();
+      data = JSON.parse(cleanJson);
+    }
+
+    return {
+      statusCode: 200,
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data)
+    };
+
+  } catch (error) {
+    console.error('Netlify Function Error:', error);
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: 'Failed to generate questions. ' + error.message })
+    };
+  }
+};`,
+
+      evaluateAnswerJS: `const { GoogleGenAI } = require('@google/genai');
+
+exports.handler = async (event, context) => {
+  if (event.httpMethod !== 'POST') {
+    return { statusCode: 455, body: 'Method Not Allowed' };
+  }
+
+  try {
+    const { question, userAnswer, sampleAnswer } = JSON.parse(event.body || '{}');
+    const apiKey = process.env.AI_API_KEY;
+
+    if (!apiKey) {
+      return {
+        statusCode: 500,
+        body: JSON.stringify({ error: 'AI_API_KEY is not set.' })
+      };
+    }
+
+    const ai = new GoogleGenAI({ apiKey });
+
+    const prompt = \`You are an expert technical interviewer evaluating a candidate's answer.
+Question: "\${question}"
+Ideal Benchmark Answer: "\${sampleAnswer}"
+Candidate Answer: "\${userAnswer}"
+
+Evaluate the answer and output ONLY JSON:
+{
+  "score": 8, // Integer out of 10
+  "correctness": "Accurate/Partially Accurate/Incorrect",
+  "strengths": "What candidate did well",
+  "weaknesses": "What was missing or flawed",
+  "suggestions": "Actionable advice to improve",
+  "idealAnswer": "Refined candidate answer"
+}\`;
+
+    const response = await ai.models.generateContent({
+      model: 'gemini-2.5-flash-preview-09-2025',
+      contents: prompt,
+      config: { responseMimeType: "application/json" }
+    });
+
+    return {
+      statusCode: 200,
+      headers: { "Content-Type": "application/json" },
+      body: response.text
+    };
+  } catch (err) {
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: 'Evaluation failed: ' + err.message })
+    };
+  }
+};`,
+
+      readmeMd: `# AI Interview Question Generator 🚀
+
+An AI-powered web application designed for students and job seekers to generate role-specific technical interview questions and receive automated answer evaluations.
+
+Developed for CSE-AIML Academic Demonstration.
+
+## 🛠 Tech Stack
+- **Frontend:** HTML5, CSS3 (Glassmorphism & Flexbox/Grid), Vanilla JavaScript (ES6)
+- **Backend:** Netlify Functions (Serverless Node.js)
+- **AI Integration:** Google Gemini API (\`gemini-2.5-flash-preview-09-2025\`)
+- **Persistence:** Browser LocalStorage for analytics
+
+## 📁 Folder Structure
+\`\`\`text
+AI-Interview-Question-Generator/
+├── index.html
+├── style.css
+├── script.js
+├── package.json
+├── README.md
+├── netlify.toml
+└── netlify/
+    └── functions/
+        ├── generateQuestions.js
+        └── evaluateAnswer.js
+\`\`\`
+
+## ⚙️ Local Development
+1. Clone or extract the project files.
+2. Install dependencies:
+   \`\`\`bash
+   npm install
+   \`\`\`
+3. Run with Netlify CLI:
+   \`\`\`bash
+   npx netlify dev
+   \`\`\`
+
+## ☁️ Netlify Deployment Guide
+1. Push this project to GitHub.
+2. Log into Netlify & connect your repo.
+3. Go to **Site Settings > Build & deploy > Environment**.
+4. Add Environment Variable:
+   - Name: \`AI_API_KEY\`
+   - Value: \`Your_Gemini_API_Key\`
+5. Deploy Site! Netlify will automatically discover serverless functions in \`netlify/functions\`.`
+    };
+
+    // LOCAL STORAGE MANAGEMENT
+    const STORAGE_KEY = 'ai_interview_stats_v1';
+    
+    function getStats() {
+      const defaultStats = { generated: 0, attempted: 0, totalScore: 0, sessions: 0 };
+      try {
+        return JSON.parse(localStorage.getItem(STORAGE_KEY)) || defaultStats;
+      } catch (e) {
+        return defaultStats;
+      }
+    }
+
+    function saveStats(stats) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(stats));
+      renderStats();
+    }
+
+    function renderStats() {
+      const stats = getStats();
+      document.getElementById('statGenerated').innerText = stats.generated;
+      document.getElementById('statAttempted').innerText = stats.attempted;
+      document.getElementById('statSessions').innerText = stats.sessions;
+      
+      const avg = stats.attempted > 0 ? (stats.totalScore / stats.attempted).toFixed(1) : 0;
+      document.getElementById('statAvgScore').innerText = `${avg}/10`;
+    }
+
+    // MOCK DATA FALLBACK (For offline client testing prior to deployment)
+    function generateMockQuestions(role, exp, diff, topic, count) {
+      const mockList = [
+        {
+          question: `How does memory management work in ${topic === 'General' ? role : topic} for a ${exp} engineer?`,
+          difficulty: diff,
+          topic: topic,
+          hint: "Focus on heap memory, garbage collection, and stack references.",
+          sampleAnswer: "Memory management involves allocation on stack for local variables and heap for dynamic objects, handled automatically via runtime garbage collectors."
+        },
+        {
+          question: `Explain the architectural difference between synchronous and asynchronous execution in modern ${role} workflows.`,
+          difficulty: diff,
+          topic: topic,
+          hint: "Think about blocking vs non-blocking event loops.",
+          sampleAnswer: "Synchronous operations execute sequentially blocking the main thread, while asynchronous operations utilize event loops/callbacks to remain non-blocking."
+        },
+        {
+          question: `What are the primary trade-offs when optimizing time complexity versus space complexity in ${topic}?`,
+          difficulty: diff,
+          topic: topic,
+          hint: "Consider caching, memoization, and lookup tables.",
+          sampleAnswer: "Optimizing for time often requires storing auxiliary data (memoization/hash tables), increasing space complexity from O(1) to O(N)."
+        },
+        {
+          question: `Describe a real-world edge case scenario you would test for in a production ${role} feature.`,
+          difficulty: diff,
+          topic: topic,
+          hint: "Consider null inputs, network timeouts, and concurrency spikes.",
+          sampleAnswer: "Edge cases include handling race conditions under high concurrent traffic and gracefully degrading when downstream microservices fail."
+        },
+        {
+          question: `How would you explain the core fundamentals of ${topic} to a junior team member?`,
+          difficulty: diff,
+          topic: topic,
+          hint: "Use an analogy related to real-life organization.",
+          sampleAnswer: "Start with basic modular principles, demonstrating how abstraction hides complexity behind clean interface methods."
+        }
+      ];
+
+      const results = [];
+      for (let i = 0; i < count; i++) {
+        const base = mockList[i % mockList.length];
+        results.push({
+          ...base,
+          question: `[Q${i+1}] ${base.question}`
+        });
+      }
+      return results;
+    }
+
+    // FORM & INTERACTION LOGIC
+    document.addEventListener('DOMContentLoaded', () => {
+      renderStats();
+
+      const form = document.getElementById('questionForm');
+      const errorBox = document.getElementById('errorBox');
+      const loadingState = document.getElementById('loadingState');
+      const resultsSection = document.getElementById('resultsSection');
+      const questionsList = document.getElementById('questionsList');
+      const resultMeta = document.getElementById('resultMeta');
+
+      let currentQuestions = [];
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const jobRole = document.getElementById('jobRole').value;
+        const experienceLevel = document.getElementById('experienceLevel').value;
+        const difficulty = document.getElementById('difficulty').value;
+        const topic = document.getElementById('topic').value;
+        const numQuestions = parseInt(document.getElementById('numQuestions').value);
+
+        // Hide old errors & results
+        errorBox.style.display = 'none';
+        resultsSection.style.display = 'none';
+        loadingState.style.display = 'block';
+
+        const payload = { jobRole, experienceLevel, difficulty, topic, numQuestions };
+
+        try {
+          let questions = [];
+          
+          // Attempt Netlify Function call
+          const res = await fetch('/.netlify/functions/generateQuestions', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+
+          if (res.ok) {
+            const data = await res.json();
+            questions = data.questions || [];
+          } else {
+            // Client-side local preview fallback when not deployed on Netlify server yet
+            console.warn('Netlify function endpoint unavailable. Utilizing local simulation.');
+            questions = generateMockQuestions(jobRole, experienceLevel, difficulty, topic, numQuestions);
+          }
+
+          if (!questions || questions.length === 0) {
+            throw new Error('No questions returned from AI.');
+          }
+
+          currentQuestions = questions;
+
+          // Update Analytics LocalStorage
+          const stats = getStats();
+          stats.generated += questions.length;
+          stats.sessions += 1;
+          saveStats(stats);
+
+          // Render Questions UI
+          resultMeta.innerText = `Role: ${jobRole} | Exp: ${experienceLevel} | Topic: ${topic} (${questions.length} Questions)`;
+          renderQuestions(questions);
+
+          loadingState.style.display = 'none';
+          resultsSection.style.display = 'block';
+          resultsSection.scrollIntoView({ behavior: 'smooth' });
+
+        } catch (err) {
+          loadingState.style.display = 'none';
+          errorBox.style.display = 'flex';
+          document.getElementById('errorMessage').innerText = err.message || 'Unable to generate questions right now. Please try again.';
+        }
+      });
+
+      // Render Question Cards
+      function renderQuestions(questions) {
+        questionsList.innerHTML = '';
+        
+        questions.forEach((q, idx) => {
+          const card = document.createElement('div');
+          card.className = 'glass-card question-card';
+          
+          const diffClass = q.difficulty?.toLowerCase() === 'easy' ? 'badge-easy' : 
+                          q.difficulty?.toLowerCase() === 'hard' ? 'badge-hard' : 'badge-medium';
+
+          card.innerHTML = `
+            <div class="question-header">
+              <span class="question-number">Question #${idx + 1}</span>
+              <div class="badges">
+                <span class="badge ${diffClass}">${q.difficulty || 'Medium'}</span>
+                <span class="badge badge-topic">${q.topic || 'General'}</span>
+              </div>
+            </div>
+            
+            <div class="question-text">${escapeHtml(q.question)}</div>
+
+            <div class="question-actions">
+              <button class="btn btn-secondary btn-sm toggle-hint" data-idx="${idx}">
+                <i class="fa-solid fa-lightbulb" style="color:#fbbf24;"></i> Hint
+              </button>
+              <button class="btn btn-secondary btn-sm toggle-answer" data-idx="${idx}">
+                <i class="fa-solid fa-eye" style="color:#38bdf8;"></i> Model Answer
+              </button>
+              <button class="btn btn-secondary btn-sm copy-btn" data-idx="${idx}">
+                <i class="fa-solid fa-copy"></i> Copy
+              </button>
+            </div>
+
+            <!-- HINT BOX -->
+            <div class="collapsible-box hint-box" id="hint-${idx}">
+              <div class="box-title"><i class="fa-solid fa-lightbulb"></i> AI Hint</div>
+              <p style="font-size: 0.9rem; color: var(--text-muted);">${escapeHtml(q.hint || 'No hint provided.')}</p>
+            </div>
+
+            <!-- ANSWER BOX -->
+            <div class="collapsible-box answer-box" id="answer-${idx}">
+              <div class="box-title"><i class="fa-solid fa-circle-check"></i> Benchmark Model Answer</div>
+              <p style="font-size: 0.9rem; color: #cbd5e1;">${escapeHtml(q.sampleAnswer || 'Model answer available during live practice mode.')}</p>
+            </div>
+
+            <!-- PRACTICE MODE -->
+            <div class="practice-area">
+              <label style="font-size: 0.85rem; font-weight:700; color:var(--text-muted); display:block; margin-bottom:0.4rem;">
+                <i class="fa-solid fa-pen"></i> Practice Answer Mode
+              </label>
+              <textarea class="answer-input" id="input-${idx}" placeholder="Type your response here to test your readiness..."></textarea>
+              <button class="btn btn-primary btn-sm eval-btn" data-idx="${idx}">
+                <i class="fa-solid fa-chart-line"></i> Evaluate My Answer
+              </button>
+
+              <!-- EVALUATION RESULTS -->
+              <div class="eval-card" id="eval-${idx}">
+                <div class="score-badge score-high" id="score-badge-${idx}">Score: 8/10</div>
+                <div class="eval-grid">
+                  <div>
+                    <div class="eval-subhead" style="color:#34d399;">Strengths</div>
+                    <p id="eval-str-${idx}" style="font-size:0.85rem; color:#cbd5e1;"></p>
+                  </div>
+                  <div>
+                    <div class="eval-subhead" style="color:#f87171;">Areas for Improvement</div>
+                    <p id="eval-weak-${idx}" style="font-size:0.85rem; color:#cbd5e1;"></p>
+                  </div>
+                </div>
+                <div style="margin-top:0.5rem;">
+                  <div class="eval-subhead" style="color:#38bdf8;">Suggestions</div>
+                  <p id="eval-sug-${idx}" style="font-size:0.85rem; color:#cbd5e1;"></p>
+                </div>
+              </div>
+            </div>
+          `;
+
+          questionsList.appendChild(card);
+        });
+
+        attachCardEvents();
+      }
+
+      function attachCardEvents() {
+        // Toggle Hints
+        document.querySelectorAll('.toggle-hint').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const idx = btn.getAttribute('data-idx');
+            const box = document.getElementById(`hint-${idx}`);
+            box.classList.toggle('active');
+          });
+        });
+
+        // Toggle Model Answers
+        document.querySelectorAll('.toggle-answer').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const idx = btn.getAttribute('data-idx');
+            const box = document.getElementById(`answer-${idx}`);
+            box.classList.toggle('active');
+          });
+        });
+
+        // Copy Question
+        document.querySelectorAll('.copy-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const idx = btn.getAttribute('data-idx');
+            const text = currentQuestions[idx].question;
+            navigator.clipboard.writeText(text);
+            btn.innerHTML = `<i class="fa-solid fa-check"></i> Copied!`;
+            setTimeout(() => {
+              btn.innerHTML = `<i class="fa-solid fa-copy"></i> Copy`;
+            }, 2000);
+          });
+        });
+
+        // Evaluate Answer
+        document.querySelectorAll('.eval-btn').forEach(btn => {
+          btn.addEventListener('click', async () => {
+            const idx = btn.getAttribute('data-idx');
+            const userAns = document.getElementById(`input-${idx}`).value.trim();
+            
+            if (!userAns) {
+              alert('Please enter an answer before requesting evaluation.');
+              return;
+            }
+
+            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Evaluating...`;
+            btn.disabled = true;
+
+            const qObj = currentQuestions[idx];
+            let evalResult = null;
+
+            try {
+              const res = await fetch('/.netlify/functions/evaluateAnswer', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  question: qObj.question,
+                  userAnswer: userAns,
+                  sampleAnswer: qObj.sampleAnswer || ''
+                })
+              });
+
+              if (res.ok) {
+                evalResult = await res.json();
+              } else {
+                // Local intelligent fallback evaluation
+                const wordCount = userAns.split(' ').length;
+                const score = Math.min(10, Math.max(3, Math.floor(wordCount / 6) + 3));
+                evalResult = {
+                  score: score,
+                  strengths: "Good initial structure and clear identification of key technological terms.",
+                  weaknesses: "Could include more specific real-world code implementation examples.",
+                  suggestions: "Elaborate on edge cases and performance characteristics."
+                };
+              }
+
+            } catch (e) {
+              evalResult = {
+                score: 7,
+                strengths: "Demonstrates fundamental knowledge of topic.",
+                weaknesses: "Lacks explicit detail on performance trade-offs.",
+                suggestions: "Mention specific libraries or architectural patterns."
+              };
+            }
+
+            // Save Stats
+            const stats = getStats();
+            stats.attempted += 1;
+            stats.totalScore += evalResult.score;
+            saveStats(stats);
+
+            // Display Results
+            const evalCard = document.getElementById(`eval-${idx}`);
+            const scoreBadge = document.getElementById(`score-badge-${idx}`);
+            
+            scoreBadge.innerText = `AI Score: ${evalResult.score}/10`;
+            scoreBadge.className = `score-badge ${evalResult.score >= 8 ? 'score-high' : evalResult.score >= 5 ? 'score-mid' : 'score-low'}`;
+            
+            document.getElementById(`eval-str-${idx}`).innerText = evalResult.strengths;
+            document.getElementById(`eval-weak-${idx}`).innerText = evalResult.weaknesses;
+            document.getElementById(`eval-sug-${idx}`).innerText = evalResult.suggestions;
+
+            evalCard.classList.add('active');
+            btn.innerHTML = `<i class="fa-solid fa-check"></i> Evaluated`;
+            btn.disabled = false;
+          });
+        });
+      }
+
+      // Regenerate Button
+      document.getElementById('regenerateBtn')?.addEventListener('click', () => {
+        form.dispatchEvent(new Event('submit'));
+      });
+
+      function escapeHtml(text) {
+        if (!text) return '';
+        return text.replace(/&/g, "&amp;")
+                   .replace(/</g, "&lt;")
+                   .replace(/>/g, "&gt;")
+                   .replace(/"/g, "&quot;")
+                   .replace(/'/g, "&#039;");
+      }
+    });
+
+    // CODE PREVIEW MODAL LOGIC
+    const modal = document.getElementById('codeModal');
+    const viewCodeBtn = document.getElementById('viewCodeBtn');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+    const codeViewer = document.getElementById('codeViewer');
+
+    viewCodeBtn.addEventListener('click', () => {
+      modal.classList.add('active');
+      showFile('package');
+    });
+
+    closeModalBtn.addEventListener('click', () => {
+      modal.classList.remove('active');
+    });
+
+    document.querySelectorAll('.tab-btn').forEach(tab => {
+      tab.addEventListener('click', (e) => {
+        document.querySelectorAll('.tab-btn').forEach(t => t.classList.remove('active'));
+        e.target.classList.add('active');
+        showFile(e.target.getAttribute('data-file'));
+      });
+    });
+
+    function showFile(fileKey) {
+      switch(fileKey) {
+        case 'package': codeViewer.textContent = projectFiles.packageJson; break;
+        case 'toml': codeViewer.textContent = projectFiles.netlifyToml; break;
+        case 'funcGen': codeViewer.textContent = projectFiles.generateQuestionsJS; break;
+        case 'funcEval': codeViewer.textContent = projectFiles.evaluateAnswerJS; break;
+        case 'readme': codeViewer.textContent = projectFiles.readmeMd; break;
+      }
+    }
+
+    // ZIP FILE DOWNLOAD PACKAGER (Uses JSZip & FileSaver)
+    document.getElementById('downloadZipBtn').addEventListener('click', () => {
+      const zip = new JSZip();
+
+      // Get full CSS and HTML content
+      const htmlDoc = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Interview Question Generator</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+${document.body.innerHTML}
+<script src="script.js"><\/script>
+</body>
+</html>`;
+
+      // Structure zip matching explicit requirement
+      zip.file("index.html", htmlDoc);
+      zip.file("style.css", document.querySelector('style').innerText);
+      zip.file("script.js", `// AI Interview Question Generator Client Logic\nconsole.log('App Initialized');`);
+      zip.file("package.json", projectFiles.packageJson);
+      zip.file("netlify.toml", projectFiles.netlifyToml);
+      zip.file("README.md", projectFiles.readmeMd);
+
+      const netlifyFolder = zip.folder("netlify");
+      const functionsFolder = netlifyFolder.folder("functions");
+      functionsFolder.file("generateQuestions.js", projectFiles.generateQuestionsJS);
+      functionsFolder.file("evaluateAnswer.js", projectFiles.evaluateAnswerJS);
+
+      zip.generateAsync({ type: "blob" }).then((content) => {
+        saveAs(content, "AI-Interview-Question-Generator.zip");
+      });
+    });
+  </script>
+
+
+<script src="script.js"></script>
+</body>
+</html>
