@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Login | Raj Jagtap CSE-AIML</title>
+
+    <!-- Existing CSS -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Google Font -->
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+</head>
+
+
+<body class="auth-page">
+
+
+    <!-- TOP BAR -->
+
+    <div class="exporter-banner">
+
+        <div class="exporter-info">
+
+            <i class="fa-solid fa-graduation-cap"></i>
+
+            <span>
+                <strong>Raj Jagtap</strong> — CSE-AIML
+            </span>
+
+        </div>
+
+
+        <div class="export-btn-group">
+
+            <a href="index.html"
+               class="btn-code-modal auth-top-btn">
+
+                <i class="fa-solid fa-house"></i>
+
+                Home
+
+            </a>
+
+
+            <a href="register.html"
+               class="btn-export auth-top-btn">
+
+                <i class="fa-solid fa-user-plus"></i>
+
+                Register
+
+            </a>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- LOGIN SECTION -->
+
+    <main class="auth-main">
+
+        <section class="glass-card auth-card">
+
+
+            <!-- Badge -->
+
+            <div class="ai-badge">
+
+                <i class="fa-solid fa-lock"></i>
+
+                Secure Login
+
+            </div>
+
+
+            <!-- Heading -->
+
+            <h1>
+                Welcome Back
+            </h1>
+
+
+            <p class="auth-subtitle">
+
+                Login to continue your
+                AI interview practice.
+
+            </p>
+
+
+
+            <!-- LOGIN FORM -->
+
+            <form id="loginForm"
+                  class="auth-form">
+
+
+                <!-- Email -->
+
+                <label>
+
+                    Email
+
+                    <input
+                        id="loginEmail"
+                        type="email"
+                        placeholder="Enter your email"
+                        required>
+
+                </label>
+
+
+
+                <!-- Password -->
+
+                <label>
+
+                    Password
+
+                    <input
+                        id="loginPassword"
+                        type="password"
+                        placeholder="Enter your password"
+                        required>
+
+                </label>
+
+
+
+                <!-- Login Button -->
+
+                <button
+                    class="btn btn-primary"
+                    type="submit">
+
+                    <i class="fa-solid fa-right-to-bracket"></i>
+
+                    Login
+
+                </button>
+
+
+            </form>
+
+
+
+            <!-- Message -->
+
+            <div id="loginMessage"
+                 class="auth-message">
+            </div>
+
+
+
+            <!-- Register Link -->
+
+            <p class="auth-switch">
+
+                Don't have an account?
+
+                <a href="register.html">
+                    Register here
+                </a>
+
+            </p>
+
+
+        </section>
+
+    </main>
+
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        <p>
+            © 2026 Raj Jagtap CSE-AIML —
+            AI Interview Question Generator.
+        </p>
+
+    </footer>
+
+
+
+    <!-- LOGIN JAVASCRIPT -->
+
+    <script>
+
+        document
+            .getElementById("loginForm")
+            .addEventListener("submit", function(e) {
+
+                e.preventDefault();
+
+
+                // Get email
+
+                const email =
+                    document
+                        .getElementById("loginEmail")
+                        .value
+                        .trim()
+                        .toLowerCase();
+
+
+                // Get password
+
+                const password =
+                    document
+                        .getElementById("loginPassword")
+                        .value;
+
+
+                // Message area
+
+                const message =
+                    document
+                        .getElementById("loginMessage");
+
+
+                // Get registered user
+
+                const user =
+                    JSON.parse(
+                        localStorage.getItem("interviewAIUser")
+                        || "null"
+                    );
+
+
+                // Check user
+
+                if (!user) {
+
+                    message.textContent =
+                        "No account found. Please register first.";
+
+                    message.style.color =
+                        "#f87171";
+
+                    return;
+                }
+
+
+                // Check login details
+
+                if (
+                    email === user.email &&
+                    password === user.password
+                ) {
+
+                    localStorage.setItem(
+                        "interviewAILoggedIn",
+                        "true"
+                    );
+
+
+                    message.textContent =
+                        "Login successful! Opening InterviewAI...";
+
+                    message.style.color =
+                        "#34d399";
+
+
+                    // Go to home page
+
+                    setTimeout(function() {
+
+                        window.location.href =
+                            "index.html";
+
+                    }, 700);
+
+                }
+
+                else {
+
+                    message.textContent =
+                        "Incorrect email or password.";
+
+                    message.style.color =
+                        "#f87171";
+
+                }
+
+            });
+
+    </script>
+
+
+</body>
+
+</html>
