@@ -1,149 +1,151 @@
-<!DOCTYPE html>
-<html lang="en">
+<input
+    id="registerPassword"
+    type="password"
+    minlength="6"
+    placeholder="Minimum 6 characters"
+    required>
 
-<head>
+</label>
 
-    <meta charset="UTF-8">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+<!-- CONFIRM PASSWORD -->
 
-    <title>Register | Raj Jagtap CSE-AIML</title>
+<label>
 
-    <link rel="stylesheet" href="style.css">
+    Confirm Password
 
-    <link rel="preconnect"
-          href="https://fonts.googleapis.com">
+    <input
+        id="registerConfirm"
+        type="password"
+        minlength="6"
+        placeholder="Re-enter your password"
+        required>
 
-    <link rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossorigin>
+</label>
 
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
-          rel="stylesheet">
 
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<!-- CREATE ACCOUNT BUTTON -->
 
-</head>
+<button
+    class="btn btn-primary"
+    type="submit">
 
+    <i class="fa-solid fa-user-plus"></i>
 
-<body class="auth-page">
+    Create Account
 
+</button>
 
-    <!-- TOP BAR -->
+</form>
 
-    <div class="exporter-banner">
 
-        <div class="exporter-info">
+<!-- MESSAGE -->
 
-            <i class="fa-solid fa-graduation-cap"></i>
+<div id="registerMessage"
+     class="auth-message">
+</div>
 
-            <span>
-                <strong>Raj Jagtap</strong> — CSE-AIML
-            </span>
 
-        </div>
+<!-- LOGIN LINK -->
 
+<p class="auth-switch">
 
-        <div class="export-btn-group">
+    Already have an account?
 
-            <a href="index.html"
-               class="btn-code-modal auth-top-btn">
+    <a href="login.html">
+        Login here
+    </a>
 
-                <i class="fa-solid fa-house"></i>
-                Home
+</p>
 
-            </a>
+</section>
 
+</main>
 
-            <a href="login.html"
-               class="btn-export auth-top-btn">
 
-                <i class="fa-solid fa-right-to-bracket"></i>
-                Login
+<!-- FOOTER -->
 
-            </a>
+<footer>
 
-        </div>
+    <p>
+        © 2026 Raj Jagtap CSE-AIML —
+        AI Interview Question Generator.
+    </p>
 
-    </div>
+</footer>
 
 
+<script>
 
-    <!-- REGISTER SECTION -->
+document
+    .getElementById("registerForm")
+    .addEventListener("submit", function(e) {
 
-    <main class="auth-main">
+        e.preventDefault();
 
-        <section class="glass-card auth-card">
+        const name =
+            document.getElementById("registerName").value.trim();
 
+        const email =
+            document.getElementById("registerEmail").value.trim().toLowerCase();
 
-            <div class="ai-badge">
+        const password =
+            document.getElementById("registerPassword").value;
 
-                <i class="fa-solid fa-user-plus"></i>
+        const confirm =
+            document.getElementById("registerConfirm").value;
 
-                Create Account
+        const message =
+            document.getElementById("registerMessage");
 
-            </div>
 
+        if (password !== confirm) {
 
-            <h1>
-                Create Your Account
-            </h1>
+            message.textContent =
+                "Passwords do not match.";
 
+            message.style.color = "#f87171";
 
-            <p class="auth-subtitle">
+            return;
+        }
 
-                Register to start your
-                AI interview practice.
 
-            </p>
+        const user = {
+            name: name,
+            email: email,
+            password: password
+        };
 
 
+        localStorage.setItem(
+            "interviewAIUser",
+            JSON.stringify(user)
+        );
 
-            <!-- REGISTER FORM -->
 
-            <form id="registerForm"
-                  class="auth-form">
+        localStorage.setItem(
+            "interviewAILoggedIn",
+            "true"
+        );
 
 
-                <!-- NAME -->
+        message.textContent =
+            "Registration successful!";
 
-                <label>
+        message.style.color = "#34d399";
 
-                    Full Name
 
-                    <input
-                        id="registerName"
-                        type="text"
-                        placeholder="Enter your full name"
-                        required>
+        setTimeout(function() {
 
-                </label>
+            window.location.href = "index.html";
 
+        }, 1000);
 
+    });
 
-                <!-- EMAIL -->
+</script>
 
-                <label>
 
-                    Email
+</body>
 
-                    <input
-                        id="registerEmail"
-                        type="email"
-                        placeholder="Enter your email"
-                        required>
-
-                </label>
-
-
-
-                <!-- PASSWORD -->
-
-                <label>
-
-                    Password
-
-                    <input
-                        id="registerPassword
+</html>
